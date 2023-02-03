@@ -126,8 +126,8 @@ type GetAccountsParams struct {
 	Type        string        `json:"type"`
 	Title       string        `json:"title"`
 	Description string        `json:"description"`
-	CategoryID  sql.NullInt32 `json:"category_id"`
-	Date        sql.NullTime  `json:"date"`
+	CategoryID  int32 `json:"category_id"`
+	Date        time.Time  `json:"date"`
 }
 
 type GetAccountsRow struct {
