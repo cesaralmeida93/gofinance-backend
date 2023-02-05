@@ -2,7 +2,7 @@ package db
 
 import (
 	"context"
-	"log"
+	"database/sql"
 	"testing"
 	"time"
 
@@ -90,10 +90,16 @@ func TestListAccounts(t *testing.T) {
 	lastAccount := createRandomAccount(t)
 
 	arg := GetAccountsParams{
-		UserID:      lastAccount.UserID,
-		Type:        lastAccount.Type,
-		CategoryID:  lastAccount.CategoryID,
-		Date:        lastAccount.Date,
+		UserID: lastAccount.UserID,
+		Type:   lastAccount.Type,
+		CategoryID: sql.NullInt32{
+			Valid: true,
+			Int32: lastAccount.CategoryID,
+		},
+		Date: sql.NullTime{
+			Valid: true,
+			Time:  lastAccount.Date,
+		},
 		Title:       lastAccount.Title,
 		Description: lastAccount.Description,
 	}
@@ -110,7 +116,6 @@ func TestListAccounts(t *testing.T) {
 		require.Equal(t, lastAccount.Value, account.Value)
 		require.NotEmpty(t, lastAccount.CreatedAt)
 		require.NotEmpty(t, lastAccount.Date)
-		log.Fatal("account category title: ", account.CategoryTitle)
 	}
 }
 
