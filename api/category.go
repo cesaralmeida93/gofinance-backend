@@ -81,8 +81,8 @@ func (server *Server) deleteCategory(ctx *gin.Context) {
 
 type updateCategoryRequest struct {
 	ID          int32  `json:"id" binding:"required"`
-	Title       string `json:"title" binding:"required"`
-	Description string `json:"description" binding:"required"`
+	Title       string `json:"title"`
+	Description string `json:"description"`
 }
 
 func (server *Server) updateCategory(ctx *gin.Context) {
