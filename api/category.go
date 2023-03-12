@@ -57,6 +57,7 @@ func (server *Server) getCategory(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 		return
 	}
+
 	ctx.JSON(http.StatusOK, category)
 }
 
@@ -76,6 +77,7 @@ func (server *Server) deleteCategory(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 		return
 	}
+
 	ctx.JSON(http.StatusOK, true)
 }
 
@@ -109,13 +111,13 @@ func (server *Server) updateCategory(ctx *gin.Context) {
 type getCategoriesRequest struct {
 	UserID      int32  `json:"user_id" binding:"required"`
 	Type        string `json:"type" binding:"required"`
-	Title       string `json:"title"`
+	Title       string `json:"title" binding:"required"`
 	Description string `json:"description"`
 }
 
 func (server *Server) getCategories(ctx *gin.Context) {
 	var req getCategoriesRequest
-	err := ctx.ShouldBindUri(&req)
+	err := ctx.ShouldBindJSON(&req)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
 	}
@@ -129,12 +131,9 @@ func (server *Server) getCategories(ctx *gin.Context) {
 
 	categories, err := server.store.GetCategories(ctx, arg)
 	if err != nil {
-		if err == sql.ErrNoRows {
-			ctx.JSON(http.StatusNotFound, errorResponse(err))
-			return
-		}
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 		return
 	}
+
 	ctx.JSON(http.StatusOK, categories)
 }

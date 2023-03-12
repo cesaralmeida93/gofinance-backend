@@ -126,7 +126,7 @@ type getAccountsRequest struct {
 
 func (server *Server) getAccounts(ctx *gin.Context) {
 	var req getAccountsRequest
-	err := ctx.ShouldBindUri(&req)
+	err := ctx.ShouldBindJSON(&req)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
 	}
