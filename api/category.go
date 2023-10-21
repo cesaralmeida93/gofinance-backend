@@ -20,6 +20,7 @@ func (server *Server) createCategory(ctx *gin.Context) {
 	err := ctx.ShouldBindJSON(&req)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		return
 	}
 
 	arg := db.CreateCategoryParams{
@@ -46,6 +47,7 @@ func (server *Server) getCategory(ctx *gin.Context) {
 	err := ctx.ShouldBindUri(&req)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		return
 	}
 
 	category, err := server.store.GetCategory(ctx, req.ID)
@@ -70,6 +72,7 @@ func (server *Server) deleteCategory(ctx *gin.Context) {
 	err := ctx.ShouldBindUri(&req)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		return
 	}
 
 	err = server.store.DeleteCategories(ctx, req.ID)
@@ -92,6 +95,7 @@ func (server *Server) updateCategory(ctx *gin.Context) {
 	err := ctx.ShouldBindJSON(&req)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		return
 	}
 
 	arg := db.UpdateCategoriesParams{
@@ -111,7 +115,7 @@ func (server *Server) updateCategory(ctx *gin.Context) {
 type getCategoriesRequest struct {
 	UserID      int32  `json:"user_id" binding:"required"`
 	Type        string `json:"type" binding:"required"`
-	Title       string `json:"title" binding:"required"`
+	Title       string `json:"title"`
 	Description string `json:"description"`
 }
 
@@ -120,6 +124,7 @@ func (server *Server) getCategories(ctx *gin.Context) {
 	err := ctx.ShouldBindJSON(&req)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		return
 	}
 
 	arg := db.GetCategoriesParams{

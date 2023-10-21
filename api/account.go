@@ -24,6 +24,7 @@ func (server *Server) createAccount(ctx *gin.Context) {
 	err := ctx.ShouldBindJSON(&req)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		return
 	}
 
 	var categoryId = req.CategoryID
@@ -67,6 +68,7 @@ func (server *Server) getAccount(ctx *gin.Context) {
 	err := ctx.ShouldBindUri(&req)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		return
 	}
 
 	account, err := server.store.GetAccount(ctx, req.ID)
@@ -91,6 +93,7 @@ func (server *Server) getAccountGraph(ctx *gin.Context) {
 	err := ctx.ShouldBindUri(&req)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		return
 	}
 
 	arg := db.GetAccountsGraphParams{
@@ -116,6 +119,7 @@ func (server *Server) getAccountReports(ctx *gin.Context) {
 	err := ctx.ShouldBindUri(&req)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		return
 	}
 
 	arg := db.GetAccountsReportsParams{
@@ -140,6 +144,7 @@ func (server *Server) deleteAccount(ctx *gin.Context) {
 	err := ctx.ShouldBindUri(&req)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		return
 	}
 
 	err = server.store.DeleteAccount(ctx, req.ID)
@@ -162,6 +167,7 @@ func (server *Server) updateAccount(ctx *gin.Context) {
 	err := ctx.ShouldBindJSON(&req)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		return
 	}
 
 	arg := db.UpdateAccountParams{
@@ -193,6 +199,7 @@ func (server *Server) getAccounts(ctx *gin.Context) {
 	err := ctx.ShouldBindJSON(&req)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		return
 	}
 
 	arg := db.GetAccountsParams{
