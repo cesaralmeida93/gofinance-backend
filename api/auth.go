@@ -17,11 +17,6 @@ type loginRequest struct {
 	Password string `json:"password" binding:"required"`
 }
 
-// type loginResponse struct {
-// 	UserID int32  `json:"user_id"`
-// 	Token  string `json:"token"`
-// }
-
 type Claims struct {
 	Username string `json:"username"`
 	jwt.RegisteredClaims
@@ -72,11 +67,6 @@ func (server *Server) login(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 		return
 	}
-
-	// arg := &loginResponse{
-	// 	UserID: user.ID,
-	// 	Token: generatedTokenToString,
-	// }
 
 	ctx.JSON(http.StatusOK, generatedTokenToString)
 }
