@@ -1,7 +1,6 @@
 package api
 
 import (
-
 	db "github.com/cesaralmeida93/gofinance-backend/db/sqlc"
 	"github.com/gin-gonic/gin"
 )
@@ -11,7 +10,7 @@ type Server struct {
 	router *gin.Engine
 }
 
-unc CORSConfig() gin.HandlerFunc {
+func CORSConfig() gin.HandlerFunc {
 	return func(context *gin.Context) {
 		context.Writer.Header().Set("Access-Control-Allow-Origin", "*")
 		context.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
