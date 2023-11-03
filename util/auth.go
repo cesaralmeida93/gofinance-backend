@@ -1,7 +1,9 @@
 package util
 
 import (
+	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"
@@ -35,5 +37,18 @@ func ValidateToken(ctx *gin.Context, token string) error {
 	}
 
 	ctx.Next()
+	return nil
+}
+
+func GetTokenInHeaderAndVerify(ctx *gin.Context) error {
+	authorizationHeaderKey := ctx.GetHeader("authorization")
+	fields := strings.Fields(authorizationHeaderKey)
+	fmt.Println("Fields: ", fields)
+	tokenToValidade := fields[1]
+	fmt.Println("token To Validade: ", tokenToValidade)
+	err := ValidateToken(ctx, tokenToValidade)
+	if err != nil {
+		return err
+	}
 	return nil
 }
