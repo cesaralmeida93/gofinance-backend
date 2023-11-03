@@ -1,6 +1,7 @@
 package api
 
 import (
+
 	db "github.com/cesaralmeida93/gofinance-backend/db/sqlc"
 	"github.com/gin-gonic/gin"
 )
@@ -10,9 +11,26 @@ type Server struct {
 	router *gin.Engine
 }
 
+unc CORSConfig() gin.HandlerFunc {
+	return func(context *gin.Context) {
+		context.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+		context.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
+		context.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+		context.Writer.Header().Set("Access-Control-Allow-Methods", "POST, DELETE, GET, PUT")
+
+		if context.Request.Method == "OPTIONS" {
+			context.AbortWithStatus(204)
+			return
+		}
+
+		context.Next()
+	}
+}
+
 func NewServer(store *db.SQLStore) *Server {
 	server := &Server{store: store}
 	router := gin.Default()
+	router.Use(CORSConfig())
 
 	// por rotas
 	router.POST("/user", server.createUser)
